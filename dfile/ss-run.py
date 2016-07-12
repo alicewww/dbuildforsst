@@ -46,14 +46,14 @@ with open('/etc/haproxy/haproxy.cfg', 'w') as f:
 # Generate shadowsocks config
 config = '''
 {
-    "server":"%s",
-    "server_port":%s,
+    "server":"127.0.0.1",
+    "server_port":10000,
     "local_port":10001,
     "password":"%s",
     "method": "aes-256-cfb-auth",
     "timeout":600
 }
-''' % (server_list[0], port, password)
+''' % password
 with open('/root/gopath/bin/config.json', 'w') as f:
     f.write(config) 
 
