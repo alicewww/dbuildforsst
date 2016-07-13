@@ -11,7 +11,8 @@ global
         daemon
 
 defaults
-        timeout connect 3s
+        timeout connect 2s
+        timeout check 2s
         timeout queue 15s
         timeout server 3600s
         timeout client 3600s
@@ -24,9 +25,10 @@ frontend fe
         default_backend be
 
 backend be
-        mode  tcp
-        balance first'''
-config_template = "\n        server server%s %s:%s check port 22 maxconn 2000"
+        mode tcp
+        balance first
+'''
+config_template = "        server server%s %s:%s check port %s maxconn 3000\n"
 
 # Check params
 if len(sys.argv) != 4:
@@ -39,7 +41,7 @@ password = sys.argv[3]
 # Generate haproxy config
 config = config_prefix
 for i, item in enumerate(server_list):
-    config += config_template % (i, item, port)
+    config += config_template % (i, item, port, port)
 with open('/etc/haproxy/haproxy.cfg', 'w') as f:
     f.write(config) 
 
